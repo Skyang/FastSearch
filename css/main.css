@@ -1,0 +1,54 @@
+body {
+	margin:10px;
+	padding:0;
+	width:400px;
+	height:90px;
+	background-color:#f5f5d5
+}
+#tranBefore {
+	width:180px;
+	height:20px
+}
+::-webkit-input-placeholder {
+	color:lavender;
+	font-size:1.2em
+}
+.popupBtn {
+	border-radius:3px;
+	color:#fff;
+	height:28px;
+	margin-top:0;
+	margin-bottom:0;
+	padding:1px 20px;
+	border:1px solid transparent;
+	font-size:15px
+}
+#define-btn {
+	background-color:#88ae34;
+	margin-left:5px;
+	width:85px
+}
+#baiduSearch {
+	background-color:lightskyblue;
+	position:absolute;
+	top:10px;
+	left:290px
+}
+#googleSearch {
+	background-color:#186dee;
+	position:absolute;
+	top:45px;
+	left:290px
+}
+#tranAfter {
+	width:270px;
+	margin-top:5px
+}
+#tranLink {
+	position:absolute;
+	top:50px;
+	left:180px;
+	width:100px;
+	height:30px;
+	font-size:14px
+}

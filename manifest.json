@@ -1,0 +1,26 @@
+{
+	"update_url": "https://clients2.google.com/service/update2/crx",
+	"manifest_version": 2,
+	"name": "FastSearch",
+	"version": "1.0.6",
+	"description": "帮助你更快地进行翻译及搜索,只需在地址框输入或点击图标就能完成这些翻译和搜索.",
+	"icons": {
+		"16": "icon/googleIcon16.png",
+		"48": "icon/googleIcon48.png",
+		"128": "icon/googleIcon128.png"
+	},
+	"permissions": ["*://*.google.cn/*"],
+	"browser_action": {
+		"default_icon": {
+			"19": "icon/googleIcon19.png",
+			"38": "icon/googleIcon38.png"
+		},
+		"default_popup": "popup.html"
+	},
+	"omnibox": {
+		"keyword": "fs"
+	},
+	"background": {
+		"scripts": ["js/background.js"]
+	}
+}

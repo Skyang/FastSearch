@@ -1,7 +1,8 @@
-chrome.omnibox.setDefaultSuggestion({
+var omnibox = chrome.omnibox;
+omnibox.setDefaultSuggestion({
 	description: "Define in Google Translate"
 });
-chrome.omnibox.onInputChanged.addListener(function(text, suggest) {
+omnibox.onInputChanged.addListener(function(text, suggest) {
 	suggest([{
 		content: "http://www.baidu.com/s?wd=" + text,
 		description: "Search " + '"' + text + '"' + " in Baidu"
@@ -10,7 +11,7 @@ chrome.omnibox.onInputChanged.addListener(function(text, suggest) {
 		description: "Search " + '"' + text + '"' + " in Google"
 	}])
 });
-chrome.omnibox.onInputEntered.addListener(function(text) {
+omnibox.onInputEntered.addListener(function(text) {
 	if (text.length < 26) {
 		var tranUrl = "http://translate.google.cn/#en/zh-CN/" + text;
 		window.open(tranUrl)

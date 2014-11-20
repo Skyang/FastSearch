@@ -9,6 +9,7 @@ function translateSend(url, callback) {
 	xhr.send()
 }
 document.getElementById("tranBefore").focus();
+
 document.addEventListener("click", function(event) {
 	var target = event.target;
 	var tranBeforeText = document.getElementById("tranBefore").value;
@@ -54,6 +55,7 @@ document.addEventListener("click", function(event) {
 			break
 	}
 }, false);
+
 document.addEventListener("mouseover", function(event) {
 	var target = event.target;
 	switch (target.id) {
@@ -68,6 +70,7 @@ document.addEventListener("mouseover", function(event) {
 			break
 	}
 }, false);
+
 document.addEventListener("mouseout", function(event) {
 	var target = event.target;
 	switch (target.id) {
@@ -82,6 +85,7 @@ document.addEventListener("mouseout", function(event) {
 			break
 	}
 }, false);
+
 document.addEventListener("keyup", function(event) {
 	if (event.keyCode == 13) {
 		document.getElementById("define-btn").click()

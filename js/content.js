@@ -10,10 +10,16 @@ function DOMPop(event){
 		var leftPos=event.clientX+scrollX;
 		var topPos=event.clientY+scrollY;
 		var translatedText;
-		var translating="正在翻译中";
+		var translating="网络错误，请检查后重试...若反复出现此消息，可发送邮件给我反馈：(hhyuestc@gmail.com)";
 		appendTranslatedDiv(translating,leftPos,topPos);
 		var currentProtocol=location.protocol;
-		var url = currentProtocol+"//translate.google.cn/translate_a/single?client=t&sl=en&tl=zh-CN&hl=zh-CN&dt=bd&dt=ex&dt=ld&dt=md&dt=qc&dt=rw&dt=rm&dt=ss&dt=t&dt=at&dt=sw&ie=UTF-8&oe=UTF-8&prev=conf&psl=en&ptl=en&it=sel.63&ssel=0&tsel=0&q=" + selectedText;
+		var translateHash="//translate.google.cn/translate_a/single?client=t&sl=en&tl=zh-CN&hl=zh-CN&dt=bd&dt=ex&dt=ld&dt=md&dt=qc&dt=rw&dt=rm&dt=ss&dt=t&dt=at&dt=sw&ie=UTF-8&oe=UTF-8&prev=conf&psl=en&ptl=en&it=sel.63&ssel=0&tsel=0&q=";
+		var url;
+		if(currentProtocol=="http:"||currentProtocol=="https:"){
+			url = currentProtocol+translateHash+ selectedText;
+		}else{
+			url="http:"+translateHash+selectedText;
+		}
 		translateSend(url, function(res) {
 			var firstIndex = res.indexOf('"');
 			var secIndex = res.indexOf('"', firstIndex + 1);
@@ -30,12 +36,13 @@ function appendTranslatedDiv(translatedText,leftPos,topPos){
 	if(document.getElementById("translateDiv")){
 		document.body.removeChild(document.getElementById("translateDiv"));
 	}
-	var translatedHTML='<p>'+translatedText+'</p>';
+	var translatedHTML="<div id='translateTriangle'></div>"+"<span>"+translatedText+"</span>";
 	var translateDiv=document.createElement("div");
 	translateDiv.id="translateDiv";
 	translateDiv.style.src="../css/content.css";
 	translateDiv.style.left=leftPos+"px";
-	translateDiv.style.top=topPos+"px";
+	var currentTop=parseInt(topPos+17);
+	translateDiv.style.top=currentTop+"px";
 	translateDiv.innerHTML=translatedHTML;
 	document.body.appendChild(translateDiv);
 }

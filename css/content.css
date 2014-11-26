@@ -1,0 +1,9 @@
+#translateDiv{
+    position: absolute;
+    width: 150px;
+    height: 80px;
+    border: 1px solid #000;
+    border-radius: 10px;
+    z-index: 3000;
+    background-color: #E6CB5D;
+}

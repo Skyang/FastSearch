@@ -1,18 +1,45 @@
-console.log("Load Success!");
-function DOMPop(){
+function DOMPop(event){
+	if(document.getElementById("translateDiv")){
+		document.body.removeChild(document.getElementById("translateDiv"));
+	}
 	var selection=document.getSelection();
-	var text=selection.toString();
-	console.log(selection);
-	console.log(selection.getRangeAt(0));
-	/*if(text.length > 0){
-		var selectionRange=selection.getRangeAt(0);
-		console.log("Select Success");
-		var translateDiv=document.createElement("div");
-	}*/
+	var selectedText=selection.toString();
+	if(selectedText.length > 0){
+		var scrollX=document.body.scrollLeft;
+		var scrollY=document.body.scrollTop;
+		var leftPos=event.clientX+scrollX;
+		var topPos=event.clientY+scrollY;
+		var translatedText;
+		var translating="正在翻译中";
+		appendTranslatedDiv(translating,leftPos,topPos);
+		var currentProtocol=location.protocol;
+		var url = currentProtocol+"//translate.google.cn/translate_a/single?client=t&sl=en&tl=zh-CN&hl=zh-CN&dt=bd&dt=ex&dt=ld&dt=md&dt=qc&dt=rw&dt=rm&dt=ss&dt=t&dt=at&dt=sw&ie=UTF-8&oe=UTF-8&prev=conf&psl=en&ptl=en&it=sel.63&ssel=0&tsel=0&q=" + selectedText;
+		translateSend(url, function(res) {
+			var firstIndex = res.indexOf('"');
+			var secIndex = res.indexOf('"', firstIndex + 1);
+			translatedText = res.slice(firstIndex + 1, secIndex);
+		});
+		appendTranslatedDiv(translatedText,leftPos,topPos);
+	}else{
+		selection=null;
+		selectedText=null;
+		return event.preventDefault();
+	}
 }
-document.addEventListener('mouseup',DOMPop,false);
-
-/*function translateSend(url, callback) {
+function appendTranslatedDiv(translatedText,leftPos,topPos){
+	if(document.getElementById("translateDiv")){
+		document.body.removeChild(document.getElementById("translateDiv"));
+	}
+	var translatedHTML='<p>'+translatedText+'</p>';
+	var translateDiv=document.createElement("div");
+	translateDiv.id="translateDiv";
+	translateDiv.style.src="../css/content.css";
+	translateDiv.style.left=leftPos+"px";
+	translateDiv.style.top=topPos+"px";
+	translateDiv.innerHTML=translatedHTML;
+	document.body.appendChild(translateDiv);
+}
+function translateSend(url, callback) {
 	var xhr = new XMLHttpRequest();
 	xhr.open("get", url, false);
 	xhr.onreadystatechange = function() {
@@ -20,25 +47,7 @@ document.addEventListener('mouseup',DOMPop,false);
 			callback(xhr.responseText)
 		}
 	};
-	xhr.send()
+	xhr.send();
 }
-if (tranBeforeText.length == 0) {
-				document.getElementById("tranAfter").innerText = "输入不能为空"
-			} else {
-				document.getElementById("tranAfter").innerText = "正在翻译中....";
-				var tmp = document.getElementById("define-btn");
-				tmp.innerText = "Defining";
-				var tranLink = document.getElementById("tranLink");
-				tranLink.innerText = "转到谷歌翻译>>";
-				tranLink.href = "http://translate.google.cn/#en/zh-CN/" + tranBeforeText;
-				var url = "http://translate.google.cn/translate_a/single?client=t&sl=en&tl=zh-CN&hl=zh-CN&dt=bd&dt=ex&dt=ld&dt=md&dt=qc&dt=rw&dt=rm&dt=ss&dt=t&dt=at&dt=sw&ie=UTF-8&oe=UTF-8&prev=conf&psl=en&ptl=en&it=sel.63&ssel=0&tsel=0&q=" + tranBeforeText;
-				translateSend(url, function(res) {
-					var firstIndex = res.indexOf('"');
-					var secIndex = res.indexOf('"', firstIndex + 1);
-					var resSliced = res.slice(firstIndex + 1, secIndex);
-					setTimeout(function() {
-						document.getElementById("tranAfter").innerText = resSliced;
-						tmp.innerText = "Define"
-					}, 500)
-				})
-			}*/
+document.addEventListener('mouseup',DOMPop,false);
+

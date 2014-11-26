@@ -1,7 +1,7 @@
 {
 	"update_url": "https://clients2.google.com/service/update2/crx",
 	"manifest_version": 2,
-	"name": "FastSearch",
+	"name": "Fast Search",
 	"version": "1.1.0",
 	"description": "帮助你更快地进行翻译及搜索,只需在地址框输入或点击图标就能完成这些翻译和搜索.",
 	"icons": {
@@ -10,7 +10,7 @@
 		"128": "icon/googleIcon128.png"
 	},
 	"permissions": [
-		"*://*.google.cn/*",storage
+		"*://*.google.cn/*"
 	],
 	"browser_action": {
 		"default_icon": {
@@ -24,5 +24,12 @@
 	},
 	"background": {
 		"scripts": ["js/background.js"]
-	}
+	},
+	"content_scripts":[
+	{
+      "matches": ["<all_urls>"],
+      "css": ["css/content.css"],
+      "js": ["js/content.js"]
+    }
+    ]
 }

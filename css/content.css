@@ -1,26 +1,27 @@
-#translateDiv{
+#translateDiv {
     position: absolute;
     width: 200px;
     height: 120px;
     border-radius: 0 8px 8px;
     z-index: 3000;
-    background:#FFF3E5;
-    box-shadow:1px 2px 3px #6A6A6D;
-    border:1px solid #FFF3E5;
-    text-align:left;
+    background: #FFF3E5;
+    box-shadow: 1px 2px 3px #6A6A6D;
+    border: 1px solid #FFF3E5;
+    text-align: left;
     text-indent: 10px;
     font-size: large;
-    color:#000;
+    color: #000;
 }
-#translateTriangle{
-    position:absolute;
-    top:-8px;
+
+#translateTriangle {
+    position: absolute;
+    top: -8px;
     left: 1px;
-    overflow:hidden;
-    width:13px;
-    height:13px;
-    background:#FFF0E5;
-    border-top:1px solid #FFF5E5;
-    border-left:1px solid #FFFAE5;
-    transform:rotate(45deg);
+    overflow: hidden;
+    width: 13px;
+    height: 13px;
+    background: #FFF0E5;
+    border-top: 1px solid #FFF5E5;
+    border-left: 1px solid #FFFAE5;
+    transform: rotate(45deg);
 }

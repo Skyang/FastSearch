@@ -9,8 +9,12 @@
     border: 1px solid #FFF3E5;
     text-align: left;
     text-indent: 10px;
-    font-size: large;
+    font-size: medium;
     color: #000;
+}
+
+#translateDiv p {
+    margin: 3px 0;
 }
 
 #translateTriangle {

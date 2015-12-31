@@ -46,7 +46,7 @@ function appendTranslatedDiv(translatedText, leftPos, topPos) {
     if ( document.getElementById("translateDiv") ) {
         document.body.removeChild(document.getElementById("translateDiv"));
     }
-    var translatedHTML = "<div id='translateTriangle'></div>" + "<span>" + translatedText + "</span>";
+    var translatedHTML = "<div id='translateTriangle'></div>" + "<div>" + translatedText + "</div>";
     var translateDiv = document.createElement("div");
     translateDiv.id = "translateDiv";
     translateDiv.style.src = "../css/content.css";

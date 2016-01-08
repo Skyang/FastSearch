@@ -1,9 +1,11 @@
 function DOMPop(event) {
+    var selection, selectedText;
+    selection = document.getSelection();
+    selectedText = selection.toString();
     if ( document.getElementById("translateDiv") ) {
         document.body.removeChild(document.getElementById("translateDiv"));
+        selectedText = "";
     }
-    var selection = document.getSelection();
-    var selectedText = selection.toString();
     if ( selectedText.length > 0 ) {
         var scrollX = document.body.scrollLeft;
         var scrollY = document.body.scrollTop;
@@ -16,20 +18,27 @@ function DOMPop(event) {
         translateRequest({
             url: url,
             success: function (msg) {
-                var explains = msg.basic.explains;
-                var length = explains.length;
-                var result;
-                for (var i = 0; i < length; i++) {
-                    (function (index) {
-                        if ( result ) {
-                            result += "<p>" + explains[index] + "</p>";
-                        } else {
-                            result = "<p>" + explains[index] + "</p>";
-                        }
-                    })(i);
+                if ( msg.errorCode == 0 ) {
+                    var explains = msg.basic ? msg.basic.explains : msg.translation;
+                    var phonetic = msg.basic ? msg.basic.phonetic : null;
+                    var length = explains.length;
+                    var result;
+                    //增加音标
+                    if ( phonetic ) {
+                        result = "<p>" + "\/" + phonetic + "\/" + "</p>";
+                    }
+                    for (var i = 0; i < length; i++) {
+                        (function (index) {
+                            if ( result ) {
+                                result += "<p>" + explains[index] + "</p>";
+                            } else {
+                                result = "<p>" + explains[index] + "</p>";
+                            }
+                        })(i);
+                    }
+                    translatedText = result;
+                    appendTranslatedDiv(translatedText, leftPos, topPos);
                 }
-                translatedText = result;
-                appendTranslatedDiv(translatedText, leftPos, topPos);
             },
             fail: function (msg) {
                 var translating = "网络错误.若反复出现此消息，可发送邮件给我反馈：(hhyuestc@gmail.com).错误信息为:" + msg;
@@ -39,7 +48,11 @@ function DOMPop(event) {
     } else {
         selection = null;
         selectedText = null;
-        return event.preventDefault();
+    }
+}
+function clearSelect(event) {
+    if ( document.getElementById("translateDiv") ) {
+        document.body.removeChild(document.getElementById("translateDiv"));
     }
 }
 function appendTranslatedDiv(translatedText, leftPos, topPos) {

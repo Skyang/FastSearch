@@ -1,7 +1,14 @@
-var config = {
-    apiKey: "802967876",
-    keyfrom: "FastSearch"
+var getConfig = function () {
+    var apiInfo = [{
+        apiKey: "802967876",
+        keyfrom: "FastSearch"
+    }, {
+        apiKey: "877799571",
+        keyfrom: "FastSearch1"
+    }];
+    return (Math.random() > 0.5) ? apiInfo[0] : apiInfo[1];
 };
+var config = getConfig();
 var url;
 var translateRequest = function (options) {
     $.ajax({
@@ -16,7 +23,26 @@ var translateRequest = function (options) {
     })
 };
 $("#tranBefore").focus();
-
+var processMsg = function (msg) {
+    var explains = msg.basic ? msg.basic.explains : msg.translation;
+    var phonetic = msg.basic ? msg.basic.phonetic : null;
+    var length = explains.length;
+    var result;
+    //增加音标
+    if ( phonetic ) {
+        result = "\/" + phonetic + "\/" + "<br/>";
+    }
+    for (var i = 0; i < length; i++) {
+        (function (index) {
+            if ( result ) {
+                result += explains[index] + "<br/>";
+            } else {
+                result = explains[index] + "<br/>";
+            }
+        })(i);
+    }
+    return result;
+};
 document.addEventListener("click", function (event) {
     var target = event.target;
     var tranBeforeText = document.getElementById("tranBefore").value;
@@ -46,19 +72,7 @@ document.addEventListener("click", function (event) {
                 url: url,
                 success: function (msg) {
                     defineBtn.innerText = "翻译";
-                    var explains = msg.basic.explains;
-                    var length = explains.length;
-                    var result;
-                    for (var i = 0; i < length; i++) {
-                        (function (index) {
-                            if ( result ) {
-                                result += explains[index] + "\n";
-                            } else {
-                                result = explains[index];
-                            }
-                        })(i);
-                    }
-                    document.getElementById("tranAfter").innerText = result;
+                    document.getElementById("tranAfter").innerHTML = processMsg(msg);
                 },
                 fail: function (msg) {
                     console.log("Fail");
@@ -67,18 +81,20 @@ document.addEventListener("click", function (event) {
             break;
     }
 }, false);
-
+var setBackGroundColor = function (id, color) {
+    document.getElementById(id).style.backgroundColor = color;
+};
 document.addEventListener("mouseover", function (event) {
     var target = event.target;
     switch ( target.id ) {
         case "define-btn":
-            document.getElementById("define-btn").style.backgroundColor = "#159C49";
+            setBackGroundColor("define-btn", "#159C49");
             break;
         case "baiduSearch":
-            document.getElementById("baiduSearch").style.backgroundColor = "#189FD5";
+            setBackGroundColor("baiduSearch", "#189FD5");
             break;
         case "googleSearch":
-            document.getElementById("googleSearch").style.backgroundColor = "#114CA4";
+            setBackGroundColor("googleSearch", "#114CA4");
             break;
     }
 }, false);
@@ -87,14 +103,14 @@ document.addEventListener("mouseout", function (event) {
     var target = event.target;
     switch ( target.id ) {
         case "define-btn":
-            document.getElementById("define-btn").style.backgroundColor = "";
+            setBackGroundColor("define-btn", "");
             break;
         case "baiduSearch":
-            document.getElementById("baiduSearch").style.backgroundColor = "";
+            setBackGroundColor("baiduSearch", "");
             break;
         case "googleSearch":
-            document.getElementById("googleSearch").style.backgroundColor = "";
-            break
+            setBackGroundColor("googleSearch", "");
+            break;
     }
 }, false);
 
